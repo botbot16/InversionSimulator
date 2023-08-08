@@ -1,12 +1,8 @@
 import numpy as np
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from util import Util
-
-
-
 
 
 class RandomForest:
@@ -47,8 +43,6 @@ class RandomForest:
                                Util.calc_match_score_pair(leaf2[i], leaf3[i]))
             is_inverted_repeat.append(Util.has_inverted_repeat_triple(leaf1[i], leaf2[i], leaf3[i]))
 
-        print("sample_size: " + str(sample_size))
-        print("is_inverted_repeat len: " + str(is_inverted_repeat))
         return np.column_stack((sequence_length, match_score, is_inverted_repeat))
 
     def learn(self, data, target):
@@ -58,7 +52,8 @@ class RandomForest:
         rf_classifier.fit(data_train, target_train)
         model_predictions = rf_classifier.predict(data_test)
         # print(model_predictions)
-        print(accuracy_score(model_predictions, target_test))
+        score = accuracy_score(model_predictions, target_test)
+        return score
 
 
 

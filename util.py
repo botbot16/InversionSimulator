@@ -1,5 +1,4 @@
 import sys
-import pandas
 from Bio import pairwise2
 
 NUCLEOTIDES = ('A', 'C', 'G', 'T')

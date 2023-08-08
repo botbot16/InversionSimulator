@@ -1,7 +1,7 @@
-import random
 from util import Util
 from sequence_wrapper import SequenceWrapper
 from random_forest import RandomForest
+import numpy as np
 
 
 def root_and_leaf():
@@ -20,8 +20,7 @@ def root_and_leaf():
 
     random_forest = RandomForest(n_estimators)
     data = random_forest.generate_features(original, mutated)
-    random_forest.learn(data, target)
-
+    return random_forest.learn(data, target)
 
 def three_leaves():
     sequence_length, inversion_prob, inversion_length_min, inversion_length_max, ir_force_prob, ir_inversion_prob, \
@@ -41,10 +40,23 @@ def three_leaves():
 
     random_forest = RandomForest(n_estimators)
     data = random_forest.generate_features_leaves(leaf1, leaf2, leaf3)
-    print(data)
-    random_forest.learn(data, target)
+    return random_forest.learn(data, target)
 
 
 if __name__ == "__main__":
-    root_and_leaf()
-    #  three_leaves()
+    root_and_leaf_scores = []
+    three_leaves_scores = []
+    for i in range(1000):
+        root_and_leaf_scores.append(root_and_leaf())
+    file_path = "root_and_leaf.txt"
+    with open(file_path, 'w') as file:
+        file.write("root_and_leaf statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
+                   np.median(root_and_leaf_scores), min(root_and_leaf_scores), max(root_and_leaf_scores),
+                   root_and_leaf_scores))
+    for i in range(1000):
+        three_leaves_scores.append(three_leaves())
+    file_path = "three_leaves.txt"
+    with open(file_path, 'w') as file:
+        file.write("median statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
+                   np.median(three_leaves_scores), min(three_leaves_scores), max(three_leaves_scores),
+                   three_leaves_scores))
