@@ -30,7 +30,7 @@ class SequenceWrapper:
         result_sequence = self.original_sequence
         inversion_length = random.randint(inversion_length_min, inversion_length_max)
         if sequence_length < inversion_length:
-            raise AssertionError("sequence length shorter than requested inversion.")
+            raise ValueError("sequence length shorter than requested inversion.")
 
         was_inverted = False
         # adding an ir_inversion
