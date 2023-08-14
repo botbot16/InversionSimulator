@@ -54,5 +54,4 @@ class Parameters:
 
     @staticmethod
     def parameter_clean_up(parameter):
-        #return parameter.split('#', 1)[0].strip()
-        pass
+        return parameter.split('#', 1)[0].strip()[1:]
