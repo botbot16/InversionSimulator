@@ -61,7 +61,7 @@ if __name__ == "__main__":
     run_number = str(parameters.run_number)
 
     file_path = path_prefix + "root_and_leaf/"
-    os.makedirs(file_path)
+    os.makedirs(file_path, exist_ok=True)
     file_path += run_number + ".txt"
     with open(file_path, 'w') as file:
         file.write("root_and_leaf statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         three_leaves_scores.append(three_leaves(parameters))
 
     file_path = path_prefix + "three_leaves/"
-    os.makedirs(file_path)
+    os.makedirs(file_path, exist_ok=True)
     file_path += run_number + ".txt"
     with open(file_path, 'w') as file:
         file.write("median statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
