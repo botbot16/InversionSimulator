@@ -32,7 +32,7 @@ class Parameters:
             self.sample_size = int(Parameters.parameter_clean_up(sys.argv[3]))
             self.n_estimators = int(Parameters.parameter_clean_up(sys.argv[4]))
             self.sequence_length = int(Parameters.parameter_clean_up(sys.argv[5]))
-            self.snp_prob = int(Parameters.parameter_clean_up(sys.argv[6]))
+            self.snp_prob = float(Parameters.parameter_clean_up(sys.argv[6]))
 
             self.inversion_prob = float(Parameters.parameter_clean_up(sys.argv[7]))
             self.inversion_length_min = int(Parameters.parameter_clean_up(sys.argv[8]))
@@ -48,10 +48,11 @@ class Parameters:
 
         print("Starting a run with the following parameters:")
         print(', '.join([str(self.run_number), str(self.num_of_runs), str(self.sample_size), str(self.n_estimators),
-                        str(self.sequence_length),str(self.snp_prob), str(self.inversion_prob),
+                        str(self.sequence_length), str(self.snp_prob), str(self.inversion_prob),
                         str(self.inversion_length_min), str(self.inversion_length_max), str(self.ir_force_prob),
                         str(self.ir_inversion_prob), str(self.ir_arm_length), str(self.ir_spacer_length)]))
 
     @staticmethod
-    def parameter_clean_up(parameter_index):
-        return sys.argv[parameter_index].split('#', 1)[0].strip()
+    def parameter_clean_up(parameter):
+        #return parameter.split('#', 1)[0].strip()
+        pass
