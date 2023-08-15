@@ -22,26 +22,28 @@ class Parameters:
 
     def __init__(self):
         # Read command-line arguments and update parameters if provided
-        # reminder that sys.argv[0] is the script name
+        # reminder that sys.argv[0] is the script name, sys.argv[1] is argument string
         if len(sys.argv) > 1:
-            if len(sys.argv) < 13:
-                raise ValueError("Not enough input parameters. Expecting {} got {}.".format(13, len(sys.argv)))
+            arguments = sys.argv[1].split('\n')
+            if len(arguments) < 13:
+                raise ValueError("Not enough input parameters in sys.argv[1]. Expecting {} got {}."
+                                 .format(13, len(arguments)))
 
-            self.run_number = int(Parameters.parameter_clean_up(sys.argv[1]))
-            self.num_of_runs = int(Parameters.parameter_clean_up(sys.argv[2]))
-            self.sample_size = int(Parameters.parameter_clean_up(sys.argv[3]))
-            self.n_estimators = int(Parameters.parameter_clean_up(sys.argv[4]))
-            self.sequence_length = int(Parameters.parameter_clean_up(sys.argv[5]))
-            self.snp_prob = float(Parameters.parameter_clean_up(sys.argv[6]))
+            self.run_number = int(Parameters.parameter_clean_up(arguments[0]))
+            self.num_of_runs = int(Parameters.parameter_clean_up(arguments[1]))
+            self.sample_size = int(Parameters.parameter_clean_up(arguments[2]))
+            self.n_estimators = int(Parameters.parameter_clean_up(arguments[3]))
+            self.sequence_length = int(Parameters.parameter_clean_up(arguments[4]))
+            self.snp_prob = float(Parameters.parameter_clean_up(arguments[5]))
 
-            self.inversion_prob = float(Parameters.parameter_clean_up(sys.argv[7]))
-            self.inversion_length_min = int(Parameters.parameter_clean_up(sys.argv[8]))
-            self.inversion_length_max = int(Parameters.parameter_clean_up(sys.argv[9]))
+            self.inversion_prob = float(Parameters.parameter_clean_up(arguments[6]))
+            self.inversion_length_min = int(Parameters.parameter_clean_up(arguments[7]))
+            self.inversion_length_max = int(Parameters.parameter_clean_up(arguments[8]))
 
-            self.ir_force_prob = float(Parameters.parameter_clean_up(sys.argv[10]))
-            self.ir_inversion_prob = float(Parameters.parameter_clean_up(sys.argv[11]))
-            self.ir_arm_length = int(Parameters.parameter_clean_up(sys.argv[12]))
-            self.ir_spacer_length = int(Parameters.parameter_clean_up(sys.argv[13]))
+            self.ir_force_prob = float(Parameters.parameter_clean_up(arguments[9]))
+            self.ir_inversion_prob = float(Parameters.parameter_clean_up(arguments[10]))
+            self.ir_arm_length = int(Parameters.parameter_clean_up(arguments[11]))
+            self.ir_spacer_length = int(Parameters.parameter_clean_up(arguments[12]))
 
         if self.inversion_prob > 0 and (self.ir_force_prob > 0 or self.ir_inversion_prob > 0):
             raise ValueError("Only normal inversion OR IR inversion is supported in a single run")
@@ -54,4 +56,4 @@ class Parameters:
 
     @staticmethod
     def parameter_clean_up(parameter):
-        return parameter.split('#', 1)[0].strip()[1:]
+        return parameter.split('#', 1)[0].strip()

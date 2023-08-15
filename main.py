@@ -48,6 +48,7 @@ def three_leaves(parameters):
 
 
 if __name__ == "__main__":
+    print("Run start!")
     parameters = Parameters()
     root_and_leaf_scores = []
     three_leaves_scores = []
@@ -78,3 +79,4 @@ if __name__ == "__main__":
         file.write("median statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
                    np.median(three_leaves_scores), min(three_leaves_scores), max(three_leaves_scores),
                    three_leaves_scores))
+    print("Run end!")
