@@ -6,8 +6,8 @@ class Parameters:
     # Set default values for parameters
     run_number = 0
     num_of_runs = 1  # should be 1000
-    sample_size = 100  # should be 1000
-    n_estimators = 100  # should be ??
+    sample_size = 10  # should be 1000
+    n_estimators = 10  # should be ??
     sequence_length = 1000  # should be 1000
     snp_prob = 0.01  # should be ??
 

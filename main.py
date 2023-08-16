@@ -48,11 +48,12 @@ def three_leaves(parameters):
 
 
 if __name__ == "__main__":
-    print("Run start!")
+    start_time = datetime.datetime.now()
+    print("Run start time: ", start_time)
     parameters = Parameters()
     root_and_leaf_scores = []
     three_leaves_scores = []
-    formatted_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    formatted_date = start_time.strftime("%Y%m%d_%H%M")
 
     for i in range(parameters.num_of_runs):
         root_and_leaf_scores.append(root_and_leaf(parameters))
@@ -79,4 +80,7 @@ if __name__ == "__main__":
         file.write("median statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
                    np.median(three_leaves_scores), min(three_leaves_scores), max(three_leaves_scores),
                    three_leaves_scores))
-    print("Run end!")
+
+    end_time = datetime.datetime.now()
+    print("Run end time:", end_time)
+    print("Run length is:", end_time - start_time)
