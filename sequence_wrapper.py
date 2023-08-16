@@ -6,7 +6,7 @@ class SequenceWrapper:
 
     def __init__(self, sequence_length, ir_prob, ir_arm_length, ir_spacer_length):
         self.force_ir_position = None
-        self.mutated_sequence, self.leaf1, self.leaf2, self.leaf3 = None, None, None, None
+        self.mutated_sequence, self.leaf1, self.leaf2, self.leaf3, self.leaf4 = None, None, None, None, None
         self.was_inverted = False
 
         # sequence_length random nucleotides with equal probability
@@ -69,13 +69,20 @@ class SequenceWrapper:
                                                                inversion_prob, inversion_length_min,
                                                                inversion_length_max, snp_prob)
 
-    def mutate_three(self, ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob, inversion_length_min,
-                     inversion_length_max, snp_prob):
+    def mutate_n(self, n, ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob, inversion_length_min,
+                 inversion_length_max, snp_prob):
         self.leaf1, was_inverted1 = self.mutate(ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob,
                                                 inversion_length_min, inversion_length_max, snp_prob)
         self.leaf2, was_inverted2 = self.mutate(ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob,
                                                 inversion_length_min, inversion_length_max, snp_prob)
-        self.leaf3, was_inverted3 = self.mutate(ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob,
-                                                inversion_length_min, inversion_length_max, snp_prob)
-        self.was_inverted = was_inverted1 or was_inverted2 or was_inverted3
+        was_inverted = was_inverted1 or was_inverted2
+        if n > 2:
+            self.leaf3, was_inverted3 = self.mutate(ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob,
+                                                    inversion_length_min, inversion_length_max, snp_prob)
+            was_inverted = was_inverted or was_inverted3
+        if n > 3:
+            self.leaf4, was_inverted4 = self.mutate(ir_inversion_prob, ir_arm_length, ir_spacer_length, inversion_prob,
+                                                    inversion_length_min, inversion_length_max, snp_prob)
+            was_inverted = was_inverted or was_inverted4
+        self.was_inverted = was_inverted
 

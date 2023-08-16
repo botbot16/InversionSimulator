@@ -29,6 +29,9 @@ class Util:
 
     @staticmethod
     def has_inverted_repeat(parameters, sequence):
+        if sequence is None:
+            return 0
+
         inverted_repeats = {}
         length = len(sequence)
         for i in range(length):
@@ -46,6 +49,6 @@ class Util:
         return 0  # no reverse compliments :(
 
     @staticmethod
-    def has_inverted_repeat_triple(parameters, seq1, seq2, seq3):
+    def has_inverted_repeat_multiple(parameters, seq1, seq2, seq3, seq4):
         return Util.has_inverted_repeat(parameters, seq1) or Util.has_inverted_repeat(parameters, seq2) or \
-               Util.has_inverted_repeat(parameters, seq3)
+               Util.has_inverted_repeat(parameters, seq3) or Util.has_inverted_repeat(parameters, seq4)

@@ -25,26 +25,37 @@ def root_and_leaf(parameters):
     return random_forest.learn(data, target)
 
 
-def three_leaves(parameters):
+def generate_leaves(parameters, num_of_leaves):
     leaf1 = []
     leaf2 = []
     leaf3 = []
+    leaf4 = []
     target = []
     for i in range(0, parameters.sample_size):
         sequence_wrapper = SequenceWrapper(parameters.sequence_length, parameters.ir_force_prob,
                                            parameters.ir_arm_length, parameters.ir_spacer_length)
-        sequence_wrapper.mutate_three(parameters.ir_inversion_prob, parameters.ir_arm_length,
-                                      parameters.ir_spacer_length, parameters.inversion_prob,
-                                      parameters.inversion_length_min, parameters.inversion_length_max,
-                                      parameters.snp_prob)
+        sequence_wrapper.mutate_n(num_of_leaves, parameters.ir_inversion_prob, parameters.ir_arm_length,
+                                  parameters.ir_spacer_length, parameters.inversion_prob,
+                                  parameters.inversion_length_min, parameters.inversion_length_max,
+                                  parameters.snp_prob)
         leaf1.append(sequence_wrapper.leaf1)
         leaf2.append(sequence_wrapper.leaf2)
         leaf3.append(sequence_wrapper.leaf3)
+        leaf4.append(sequence_wrapper.leaf4)
         target.append(sequence_wrapper.was_inverted)
 
     random_forest = RandomForest(parameters.n_estimators)
-    data = random_forest.generate_features_leaves(parameters, leaf1, leaf2, leaf3)
+    data = random_forest.generate_features_leaves(parameters, num_of_leaves, leaf1, leaf2, leaf3, leaf4)
     return random_forest.learn(data, target)
+
+
+def print_results(file_path, scores):
+    os.makedirs(file_path, exist_ok=True)
+    file_path += run_number + ".txt"
+    with open(file_path, 'w') as file:
+        file.write("median: {} min: {}, max: {}\nfull scores: {}".format(
+            np.median(scores), min(scores), max(scores),
+            scores))
 
 
 if __name__ == "__main__":
@@ -52,7 +63,9 @@ if __name__ == "__main__":
     print("Run start time: ", start_time)
     parameters = Parameters()
     root_and_leaf_scores = []
+    two_leaves_scores = []
     three_leaves_scores = []
+    four_leaves_scores = []
     formatted_date = start_time.strftime("%Y%m%d_%H%M")
 
     for i in range(parameters.num_of_runs):
@@ -62,24 +75,16 @@ if __name__ == "__main__":
     path_prefix += "IR/" if parameters.inversion_prob == 0 else "inversion/"
     run_number = str(parameters.run_number)
 
-    file_path = path_prefix + "root_and_leaf/"
-    os.makedirs(file_path, exist_ok=True)
-    file_path += run_number + ".txt"
-    with open(file_path, 'w') as file:
-        file.write("root_and_leaf statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
-                   np.median(root_and_leaf_scores), min(root_and_leaf_scores), max(root_and_leaf_scores),
-                   root_and_leaf_scores))
+    print_results(path_prefix + "root_and_leaf/", root_and_leaf_scores)
 
     for i in range(parameters.num_of_runs):
-        three_leaves_scores.append(three_leaves(parameters))
+        # two_leaves_scores.append(three_leaves(parameters, 2))
+        three_leaves_scores.append(generate_leaves(parameters, 3))
+        # four_leaves_scores.append(three_leaves(parameters, 4))
 
-    file_path = path_prefix + "three_leaves/"
-    os.makedirs(file_path, exist_ok=True)
-    file_path += run_number + ".txt"
-    with open(file_path, 'w') as file:
-        file.write("median statistics:\nmedian: {} min: {}, max: {}\nfull scores: {}".format(
-                   np.median(three_leaves_scores), min(three_leaves_scores), max(three_leaves_scores),
-                   three_leaves_scores))
+    # print_results(path_prefix + "two_leaves/", two_leaves_scores)
+    print_results(path_prefix + "three_leaves/", three_leaves_scores)
+    # print_results(path_prefix + "four_leaves/", four_leaves_scores)
 
     end_time = datetime.datetime.now()
     print("Run end time:", end_time)
