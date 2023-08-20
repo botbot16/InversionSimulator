@@ -6,6 +6,15 @@ import datetime
 import numpy as np
 
 
+def get_num_of_leaves_as_string():
+    if num_of_leaves == 2:
+        return "two"
+    elif num_of_leaves == 3:
+        return "three"
+    elif num_of_leaves == 4:
+        return "four"
+
+
 def root_and_leaf(parameters):
     original = []
     mutated = []
@@ -63,9 +72,7 @@ if __name__ == "__main__":
     print("Run start time: ", start_time)
     parameters = Parameters()
     root_and_leaf_scores = []
-    two_leaves_scores = []
-    three_leaves_scores = []
-    four_leaves_scores = []
+    leaf_scores = []
     formatted_date = start_time.strftime("%Y%m%d_%H%M")
 
     for i in range(parameters.num_of_runs):
@@ -77,14 +84,13 @@ if __name__ == "__main__":
 
     print_results(path_prefix + "root_and_leaf/", root_and_leaf_scores)
 
-    for i in range(parameters.num_of_runs):
-        # two_leaves_scores.append(three_leaves(parameters, 2))
-        three_leaves_scores.append(generate_leaves(parameters, 3))
-        # four_leaves_scores.append(three_leaves(parameters, 4))
+    num_of_leaves = parameters.num_of_leaves
+    string_num_of_leaves = get_num_of_leaves_as_string()
 
-    # print_results(path_prefix + "two_leaves/", two_leaves_scores)
-    print_results(path_prefix + "three_leaves/", three_leaves_scores)
-    # print_results(path_prefix + "four_leaves/", four_leaves_scores)
+    for i in range(parameters.num_of_runs):
+        leaf_scores.append(generate_leaves(parameters, num_of_leaves))
+
+    print_results(path_prefix + string_num_of_leaves + "_leaves/", leaf_scores)
 
     end_time = datetime.datetime.now()
     print("Run end time:", end_time)

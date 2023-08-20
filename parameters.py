@@ -7,7 +7,8 @@ class Parameters:
     run_number = 0
     num_of_runs = 1  # should be 1000
     sample_size = 10  # should be 1000
-    n_estimators = 10  # should be ??
+    n_estimators = 10  # should be 10
+    num_of_leaves = 4  # should be 2, 3, 4
     sequence_length = 1000  # should be 1000
     snp_prob = 0.01  # should be ??
 
@@ -33,17 +34,18 @@ class Parameters:
             self.num_of_runs = int(Parameters.parameter_clean_up(arguments[1]))
             self.sample_size = int(Parameters.parameter_clean_up(arguments[2]))
             self.n_estimators = int(Parameters.parameter_clean_up(arguments[3]))
-            self.sequence_length = int(Parameters.parameter_clean_up(arguments[4]))
-            self.snp_prob = float(Parameters.parameter_clean_up(arguments[5]))
+            self.num_of_leaves = int (Parameters.parameter_clean_up(argument4))
+            self.sequence_length = int(Parameters.parameter_clean_up(arguments[5]))
+            self.snp_prob = float(Parameters.parameter_clean_up(arguments[6]))
 
-            self.inversion_prob = float(Parameters.parameter_clean_up(arguments[6]))
-            self.inversion_length_min = int(Parameters.parameter_clean_up(arguments[7]))
-            self.inversion_length_max = int(Parameters.parameter_clean_up(arguments[8]))
+            self.inversion_prob = float(Parameters.parameter_clean_up(arguments[7]))
+            self.inversion_length_min = int(Parameters.parameter_clean_up(arguments[8]))
+            self.inversion_length_max = int(Parameters.parameter_clean_up(arguments[9]))
 
-            self.ir_force_prob = float(Parameters.parameter_clean_up(arguments[9]))
-            self.ir_inversion_prob = float(Parameters.parameter_clean_up(arguments[10]))
-            self.ir_arm_length = int(Parameters.parameter_clean_up(arguments[11]))
-            self.ir_spacer_length = int(Parameters.parameter_clean_up(arguments[12]))
+            self.ir_force_prob = float(Parameters.parameter_clean_up(arguments[10]))
+            self.ir_inversion_prob = float(Parameters.parameter_clean_up(arguments[11]))
+            self.ir_arm_length = int(Parameters.parameter_clean_up(arguments[12]))
+            self.ir_spacer_length = int(Parameters.parameter_clean_up(arguments[13]))
 
         if self.inversion_prob > 0 and (self.ir_force_prob > 0 or self.ir_inversion_prob > 0):
             raise ValueError("Only normal inversion OR IR inversion is supported in a single run")

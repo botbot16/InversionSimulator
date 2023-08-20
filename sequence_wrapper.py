@@ -85,4 +85,3 @@ class SequenceWrapper:
                                                     inversion_length_min, inversion_length_max, snp_prob)
             was_inverted = was_inverted or was_inverted4
         self.was_inverted = was_inverted
-

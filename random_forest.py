@@ -61,6 +61,3 @@ class RandomForest:
         # print(model_predictions)
         score = accuracy_score(model_predictions, target_test)
         return score
-
-
-
